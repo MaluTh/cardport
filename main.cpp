@@ -18,7 +18,7 @@ const unsigned char led_mask = (1 << pin_led);
 const unsigned char button_mask = (1 << pin_b);
 unsigned long tempo = 1000;
 
-UART uart;
+UART uart(19200,UART::DATABITS_6, UART::PARITY_EVEN, UART::STOPBITS_1);
 
 bool ler_pino(){
     return button_mask & PINB;
@@ -43,7 +43,8 @@ void apaga_led() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-	uart.put('a');
+	uart.put(uart.get()+1);
+
     if(ler_pino()){
     	//printf("ON\n");
         apaga_led();
