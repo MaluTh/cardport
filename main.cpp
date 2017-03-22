@@ -8,60 +8,35 @@
 
 #include <util/delay.h>
 #include <avr/io.h>
-//#include <avr/iom328p.h>
 #include <stdio.h>
 #include "UART.h"
+#include "GPIO.h"
 
-char pin_led = 3;//bit que vai ser utilizado na aplicação
-char pin_b = 4;
-const unsigned char led_mask = (1 << pin_led);
-const unsigned char button_mask = (1 << pin_b);
-unsigned long tempo = 1000;
+UART uart(
+	19200,
+	UART::DATABITS_8,
+	UART::PARITY_ODD,
+	UART::STOPBITS_2
+);
 
-UART uart(19200,UART::DATABITS_6, UART::PARITY_EVEN, UART::STOPBITS_1);
+GPIO led (111,GPIO::OUTPUT);
+GPIO button (12, GPIO::INPUT);
 
-bool ler_pino(){
-    return button_mask & PINB;
-}
+void setup(){}
 
-void setup() {
-  // put your setup code here, to run once:
-  DDRB = DDRB | button_mask; //saida
-  DDRB = DDRB & ~button_mask; //entrada
-  //usart_init();
+bool val_botao;
 
-}
-
-void acende_led() {
-    PORTB = PORTB | led_mask;
-}
-
-void apaga_led() {
-    PORTB = PORTB &(~led_mask);
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-	uart.put(uart.get()+1);
-
-    if(ler_pino()){
-    	//printf("ON\n");
-        apaga_led();
-    } else {
-    	//printf("OFF\n");
-        acende_led();
-    }
+void loop(){
+	val_botao= button.get();
+	led.set(val_botao);
 }
 
 int main(){
-
-    setup();
-
-    while(true) loop();
-
+	setup();
+	while(true){
+		loop();
+	}
 }
-
 
 
 
