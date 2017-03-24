@@ -51,6 +51,15 @@ unsigned char UART:: get(){
 	return UDR0; //return receive data
 }
 
+void UART:: puts(char * str){
+
+	while(*str != '/0'){
+		put(*str);
+		str ++;
+	}
+
+
+}
 
 
 

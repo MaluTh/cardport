@@ -18,16 +18,18 @@ public:
 		OUTPUT =1
 	};
 
+
+
+	GPIO( int pin, PortDirection_t dir);
+	~GPIO();
+	bool get();
+	void set(bool val);
+
+private:
 	unsigned int _mask;
 	volatile uint8_t * _ddr;
 	volatile uint8_t * _port;
 	volatile uint8_t * _pin;
-
-	GPIO( int pin, PortDirection_t dir);
-	~GPIO();
-
-	bool get();
-	void set(bool val);
 };
 
 

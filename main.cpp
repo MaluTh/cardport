@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "UART.h"
 #include "GPIO.h"
-
+#include "Timer.h"
 UART uart(
 	19200,
 	UART::DATABITS_8,
@@ -19,8 +19,9 @@ UART uart(
 	UART::STOPBITS_2
 );
 
-GPIO led (111,GPIO::OUTPUT);
-GPIO button (12, GPIO::INPUT);
+GPIO led (5,GPIO::OUTPUT);
+GPIO button (6, GPIO::INPUT);
+Timer timer(1000);
 
 void setup(){}
 
@@ -29,6 +30,7 @@ bool val_botao;
 void loop(){
 	val_botao= button.get();
 	led.set(val_botao);
+
 }
 
 int main(){

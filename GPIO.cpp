@@ -22,8 +22,8 @@ GPIO::GPIO(int pin, PortDirection_t dir) {
 		_port = &PORTB;
 		_pin = &PINB;
 	} else {
-
-		//pino inválido
+		//porta C
+		//pin -= 14;
 	}
 
 	_mask = (1 << pin);
