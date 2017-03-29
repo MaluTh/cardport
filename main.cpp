@@ -12,19 +12,23 @@
 #include "UART.h"
 #include "GPIO.h"
 #include "Timer.h"
+#include <avr/interrupt.h>
 UART uart(
 	19200,
 	UART::DATABITS_8,
-	UART::PARITY_ODD,
-	UART::STOPBITS_2
+	UART::PARITY_NONE,
+	UART::STOPBITS_1
 );
 
-GPIO led (5,GPIO::OUTPUT);
-GPIO button (6, GPIO::INPUT);
+GPIO led (11,GPIO::OUTPUT);
+GPIO button (12, GPIO::INPUT);
 Timer timer(1000);
 char message[8];
 
-void setup(){}
+void setup(){
+	sei();
+
+}
 
 bool val_botao;
 
@@ -32,8 +36,9 @@ bool val_botao;
 void loop(){
 	val_botao= button.get();
 	led.set(val_botao);
-	sprintf(message,"%d\n",timer.millis());
+	sprintf(message,"%llu\n",timer.millis());
 	uart.puts(message);
+	//uart.put('a\n');
 
 }
 

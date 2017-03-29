@@ -55,7 +55,7 @@ void UART:: puts(char * str){
 
 	while(*str != '/0'){
 		put(*str);
-		str ++;
+		str++;
 	}
 
 
