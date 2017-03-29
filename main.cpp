@@ -22,14 +22,18 @@ UART uart(
 GPIO led (5,GPIO::OUTPUT);
 GPIO button (6, GPIO::INPUT);
 Timer timer(1000);
+char message[8];
 
 void setup(){}
 
 bool val_botao;
 
+
 void loop(){
 	val_botao= button.get();
 	led.set(val_botao);
+	sprintf(message,"%d\n",timer.millis());
+	uart.puts(message);
 
 }
 

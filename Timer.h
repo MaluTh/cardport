@@ -27,6 +27,7 @@ public:
 
 private:
 	static unsigned long long _ticks;
+	Hertz _freq;
 };
 
 #endif /* TIMER_H_ */
