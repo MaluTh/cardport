@@ -25,8 +25,16 @@ Timer::Timer(Hertz freq) {
 
 Milliseconds Timer::millis(){
 	//versão errada (verificar freq e transformar ticks em mili)
+	unsigned long long periodo;
+	unsigned long long periodo_clock;
+	unsigned long long timer_counter;
+	unsigned long long milis;
 
-	return _ticks;
+	periodo = 1/float(this->_freq);
+	periodo_clock = 1/float(16000000/1024);
+	milis = float(periodo/periodo_clock) - 1;
+
+	return milis;
 }
 Microseconds Timer::micros(){
 
