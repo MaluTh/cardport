@@ -11,7 +11,6 @@
 UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _baudrate(br), _databits(db), _parity(pr), _stopbits(sb) {
 
 	UBRR0 = (F_CPU / (16ul * this->_baudrate))-1; //set baudrate
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0); //liga tx e rx
 
 	//set databits
 	if(_databits == DATABITS_9){
@@ -34,6 +33,7 @@ UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _b
 
 	UCSR0C = (UCSR0C & ~(1 << USBS0)) | (_stopbits << USBS0); // lê, modifica e salva
 
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0); //liga tx e rx
 }
 
 void UART:: put(unsigned char data){
@@ -53,7 +53,7 @@ unsigned char UART:: get(){
 
 void UART:: puts(char * str){
 
-	while(*str != '/0'){
+	while(*str != '\0'){
 		put(*str);
 		str++;
 	}

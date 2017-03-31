@@ -25,8 +25,12 @@ public:
 
 	static void isr_handler();
 
+	static Timer * self() { return __singelton; }
+
 private:
+	static Timer * __singelton;
 	static unsigned long long _ticks;
+	unsigned long long us_per_tick;
 	Hertz _freq;
 	int ciclos;
 };

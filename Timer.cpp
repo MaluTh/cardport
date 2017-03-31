@@ -10,13 +10,14 @@
 #include <avr/interrupt.h>
 
 unsigned long long Timer::_ticks = 0;
-
-int div = 0;
+Timer * Timer::__singelton = 0;
 
 Timer::Timer(Hertz freq) {
 
-	TCCR0A = 0x00;// Normal operation
-	TIMSK0 = 0x01; // liga interrupção de overflow
+	int div = 0;
+
+
+	__singelton = this;
 
 	//lógica para selecionar div
 	if(freq <= 15000){
@@ -36,39 +37,40 @@ Timer::Timer(Hertz freq) {
 
 	TCNT0 = 0XFF - ciclos; // conta ate FF, da o overflow, e continua a contagem da onde parou
 	this->_freq = freq;
+
+	us_per_tick = 1000000/this->_freq;
+
+	TCCR0A = 0x00;// Normal operation
+	TIMSK0 = 0x01; // liga interrupção de overflow
 }
 
 
 Milliseconds Timer::millis(){
-	//versão errada (verificar freq e transformar ticks em mili)
-	unsigned long long periodo;
-	unsigned long long periodo_clock;
-	unsigned long long milis;
 
-	periodo = 1/float(this->_freq);
-	periodo_clock = 1/ciclos;
-	milis = float(periodo/periodo_clock) - 1;
+	return (micros()/1000);
 
-	return milis * _ticks;
-	//return _ticks;
 }
 Microseconds Timer::micros(){
-	return millis()/1000;
+
+	return us_per_tick * _ticks;
+
 }
 
 void Timer::delay(Milliseconds ms){
 
-	Milliseconds aux = millis();
-	while(millis()<(aux+ms));
+	udelay(ms*1000);
 
 }
 void Timer::udelay(Microseconds us){
 
+	Microseconds aux = micros();
+	while((micros()-aux) <= us);
+
 }
 
 void Timer::isr_handler(){
-	TCNT0 = 0XF0; //inicia a contagem "la na frente"
-	_ticks++;
+	TCNT0 = 0XFF - self()->ciclos; //inicia a contagem "la na frente"
+	self()->_ticks++;
 }
 
 ISR (TIMER0_OVF_vect){// para monitorar o overflow

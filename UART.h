@@ -8,7 +8,7 @@
 #ifndef UART_H_
 #define UART_H_
 
-
+#include "FIFO.h"
 
 class UART {
 public:
@@ -48,6 +48,9 @@ private:
 	DataBits_t _databits;
 	ParityBits_t _parity;
 	StopBits_t _stopbits;
+
+	FIFO<8> _tx_fifo;
+	FIFO<32> _rx_fifo;
 };
 
 #endif /* UART_H_ */
