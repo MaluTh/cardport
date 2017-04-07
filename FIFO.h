@@ -17,10 +17,11 @@ public:
 	static const unsigned int FIFO_ERROR_FULL= -2;
 
 	FIFO(){
-		_head = 0;
+		clear();
+/*		_head = 0;
 		_tail = 0;
 		_length = 0;
-
+*/
 	}
 
 	~FIFO(){}
@@ -40,7 +41,7 @@ public:
 	}
 	char pop(){
 		int returnval;
-		if(_length == 0) return FIFO_ERROR_EMPTY;
+		if(_length == 0) return (char)FIFO_ERROR_EMPTY;
 		returnval = _buffer[_head];
 
 		if(_head == Q_SIZE) {
@@ -50,7 +51,16 @@ public:
 		}
 		_length --;
 		return returnval;
+		clear();
 
+	}
+
+	void clear(){
+
+		_head = 0;
+		_tail = 0;
+		_length = 0;
+		return;
 	}
 
 	int size(){return _length;}
@@ -62,3 +72,8 @@ private:
 };
 
 #endif /* FIFO_H_ */
+
+/* o problema estava em não ter a função clear. Foi implementada. Mas o problema está no pop,
+ * pois ele não está tirando na ordem correta, por esse motivo dá erro.
+ * */
+ */

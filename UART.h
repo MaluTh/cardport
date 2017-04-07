@@ -41,7 +41,7 @@ public:
 
 	void put(unsigned char data);
 	unsigned char get();
-	void puts(char * str);
+	void puts(const char * str);
 
 private:
 	unsigned long  _baudrate;
