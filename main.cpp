@@ -21,7 +21,7 @@ bool val_botao;
 char message[8];
 
 void setup() {
-	sei();
+	sei();// habilitando configurações globais SÓ FAZ ISSO AQUI
 }
 
 static const int MAX = 4;
@@ -38,7 +38,7 @@ void loop() {
 	char x = 0, y = 0;
 
 	uart.puts("Test 1: insert/remove 1.\r\n");
-//	fifo_test.clear();
+	fifo_test.clear();
 
 	uart.puts("\t Push A. ");
 	fifo_test.push('A');
@@ -52,7 +52,7 @@ void loop() {
 
 
 	uart.puts("Test 2: insert/remove MAX.\r\n");
-//	fifo_test.clear();
+	fifo_test.clear();
 
 	x = 'A';
 	for (int i = 0; i < MAX; i++) {
@@ -76,7 +76,7 @@ void loop() {
 
 
 	uart.puts("Test 3: remove from empty.\r\n");
-//	fifo_test.clear();
+	fifo_test.clear();
 
 	for (int i = 0; i < MAX; i++) {
 		uart.puts("\t Pop: ");
@@ -86,7 +86,7 @@ void loop() {
 	}
 
 	uart.puts("Test 4: insert in full.\r\n");
-	//fifo_test.clear();
+	fifo_test.clear();
 
 	x = 'A';
 	for (int i = 0; i < MAX; i++) {

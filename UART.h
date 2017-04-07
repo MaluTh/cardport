@@ -7,6 +7,7 @@
 
 #ifndef UART_H_
 #define UART_H_
+#include <avr/interrupt.h>
 
 #include "FIFO.h"
 
@@ -42,8 +43,11 @@ public:
 	void put(unsigned char data);
 	unsigned char get();
 	void puts(const char * str);
+	static void isr_handler();
+	static UART * self() { return __singelton; }
 
 private:
+	static UART * __singelton;
 	unsigned long  _baudrate;
 	DataBits_t _databits;
 	ParityBits_t _parity;

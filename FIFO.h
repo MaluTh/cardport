@@ -18,10 +18,6 @@ public:
 
 	FIFO(){
 		clear();
-/*		_head = 0;
-		_tail = 0;
-		_length = 0;
-*/
 	}
 
 	~FIFO(){}
@@ -51,12 +47,11 @@ public:
 		}
 		_length --;
 		return returnval;
-		clear();
+		//clear();
 
 	}
 
 	void clear(){
-
 		_head = 0;
 		_tail = 0;
 		_length = 0;
@@ -76,4 +71,4 @@ private:
 /* o problema estava em não ter a função clear. Foi implementada. Mas o problema está no pop,
  * pois ele não está tirando na ordem correta, por esse motivo dá erro.
  * */
- */
+

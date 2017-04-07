@@ -8,6 +8,7 @@
 #include "UART.h"
 #include <avr/io.h>
 
+
 UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _baudrate(br), _databits(db), _parity(pr), _stopbits(sb) {
 
 	UBRR0 = (F_CPU / (16ul * this->_baudrate))-1; //set baudrate
@@ -26,14 +27,20 @@ UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _b
 	//set parity
 	UCSR0C = (UCSR0C & ~(3 << UPM00)) | (_parity << UPM00); // 3 representa dois bits em binário.
 
-	//set stopbits
-	//unsigned char reg = UCSR0C; //read
-	//reg = (reg & ~(1 << USBS0)) | (_stopbits << USBS0); //modify
-	//UCSR0C = reg; // update
-
+	//STOP BIT
 	UCSR0C = (UCSR0C & ~(1 << USBS0)) | (_stopbits << USBS0); // lê, modifica e salva
 
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0); //liga tx e rx
+
+	//Registrador UCSR0B
+
+	UCSR0A = UCSR0A & ~(1 << TXC0);
+	UCSR0A = UCSR0A & ~(1 << RXC0);
+
+	UCSR0B = UCSR0B & ~(1 << TXCIE0);
+	UCSR0B = UCSR0B & ~(1 << RXCIE0);
+
+
 }
 
 void UART:: put(unsigned char data){
@@ -46,9 +53,10 @@ void UART:: put(unsigned char data){
 unsigned char UART:: get(){
 
 	//wait until data is received
-	while ( ! (UCSR0A & (1<<RXC0))) ;
-
-	return UDR0; //return receive data
+//	while ( ! (UCSR0A & (1<<RXC0))) ;
+//
+//	return UDR0; //return receive data
+	return self()->_rx_fifo.pop();
 }
 
 void UART:: puts(const char * str){
@@ -58,6 +66,13 @@ void UART:: puts(const char * str){
 		str++;
 	}
 
+}
+
+void UART::isr_handler(){
+
+}
+
+ISR (USART_RX_vect){
 
 }
 
