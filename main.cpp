@@ -29,13 +29,13 @@ typedef FIFO<MAX> MyFIFO;
 MyFIFO fifo_test;
 
 void loop() {
-//	val_botao = botao.get();
-//	led.set(val_botao);
-//	timer.delay(1000);
-//	sprintf(message, "%lu\n", timer.millis());
-//	uart.puts(message);
+	//val_botao = botao.get();
+	//led.set(val_botao);
+	timer.delay(1000);
+	sprintf(message, "%lu\n", timer.millis());
+	uart.puts(message);
 
-	char x = 0, y = 0;
+	/*char x = 0, y = 0;
 
 	uart.puts("Test 1: insert/remove 1.\r\n");
 	fifo_test.clear();
@@ -113,7 +113,7 @@ void loop() {
 		y++;
 	}
 
-	timer.delay(10000);
+	timer.delay(10000);*/
 }
 
 int main() {

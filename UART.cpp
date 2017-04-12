@@ -7,9 +7,13 @@
 
 #include "UART.h"
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
+UART * UART::__singelton =0;
 
 UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _baudrate(br), _databits(db), _parity(pr), _stopbits(sb) {
+
+	__singelton = this;
 
 	UBRR0 = (F_CPU / (16ul * this->_baudrate))-1; //set baudrate
 
@@ -37,17 +41,19 @@ UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _b
 	UCSR0A = UCSR0A & ~(1 << TXC0);
 	UCSR0A = UCSR0A & ~(1 << RXC0);
 
-	UCSR0B = UCSR0B & ~(1 << TXCIE0);
-	UCSR0B = UCSR0B & ~(1 << RXCIE0);
+	//UCSR0B = UCSR0B & ~(1 << TXCIE0);
+	UCSR0B = UCSR0B | (1 << RXCIE0);
 
-
+	UCSR0B = UCSR0B | (1 << UDRIE0);
 }
 
 void UART:: put(unsigned char data){
 	/* Wait for empty transmit buffer */
-	while ( !( UCSR0A & (1<<UDRE0)) ); // vai dando shift e mandando byte a byte pela serial
+	//while ( !( UCSR0A & (1<<UDRE0)) ); // vai dando shift e mandando byte a byte pela serial
 	/* Put data into buffer, sends the data */
-	UDR0 = data; //envai o dado depois que o registrador estiver vazio
+	//UDR0 = data; //envai o dado depois que o registrador estiver vazio
+
+	self()->_tx_fifo.push(data);
 }
 
 unsigned char UART:: get(){
@@ -69,18 +75,20 @@ void UART:: puts(const char * str){
 }
 
 void UART::rxc_handler(){
-	self()->_rx_fifo.push(UDRE0);
+	//return receive data
+	self()->_rx_fifo.push(UDR0);
+
 }
 
 void UART::txc_handler(){
-
+    UDR0 = self()->_tx_fifo.pop();
 }
 
 ISR (USART_RX_vect){
 	UART::rxc_handler();
 }
 
-ISR (USART_TX_vect){
+ISR (USART_UDRE_vect){ // monitora se o registrador esta vazio
 	UART::txc_handler();
 }
 

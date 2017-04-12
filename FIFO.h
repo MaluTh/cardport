@@ -17,7 +17,10 @@ public:
 	static const unsigned int FIFO_ERROR_FULL= -2;
 
 	FIFO(){
-		clear();
+		//clear();
+		_head =0;
+		_tail =0;
+		_length =0;
 	}
 
 	~FIFO(){}
@@ -50,13 +53,12 @@ public:
 		//clear();
 
 	}
-
-	void clear(){
-		_head = 0;
-		_tail = 0;
-		_length = 0;
-		return;
-	}
+	void clear(){}
+//			_head = 0;
+//			_tail = 0;
+//			_length = 0;
+//			return;
+//	}
 
 	int size(){return _length;}
 	int max_size(){return Q_SIZE;}
