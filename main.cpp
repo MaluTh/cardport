@@ -19,6 +19,7 @@ GPIO botao(12, GPIO::INPUT);
 Timer timer(1000);
 bool val_botao;
 char message[8];
+char a;
 
 
 void setup() {
@@ -33,10 +34,15 @@ void loop() {
 
 	//val_botao = botao.get();
 	//led.set(val_botao);
+//	timer.delay(1000);
+
+	//sprintf(message, "%lu\n", timer.millis());
+	sprintf(message, "\ntesta\n");
+	uart.puts(message);
+	a = uart.get();
+	uart.put(a);
 	timer.delay(1000);
 
-	sprintf(message, "testando\n");
-	uart.puts(message);
 
 
 	/*char x = 0, y = 0;

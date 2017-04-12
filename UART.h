@@ -56,7 +56,6 @@ private:
 
 	FIFO<8> _tx_fifo;
 	FIFO<32> _rx_fifo;
-	int _count = 0;
 };
 
 #endif /* UART_H_ */

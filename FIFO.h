@@ -28,11 +28,15 @@ public:
 			_tail = 0;
 			return FIFO_ERROR_FULL;
 		}else{
-			 _tail ++;
-			 int pos = _tail-1;
-			_buffer[pos] = value;
-			_length ++;
-			return pos;
+			if(_tail == Q_SIZE-1) {
+				_tail = 0;
+			} else {
+				_buffer[_tail] = value;
+				_tail++;
+				_length ++;
+			}
+			return 0;
+
 		}
 	}
 	char pop(){
@@ -40,14 +44,13 @@ public:
 		if(_length == 0) return (char)FIFO_ERROR_EMPTY;
 		returnval = _buffer[_head];
 
-		if(_head == Q_SIZE) {
+		if(_head == Q_SIZE-1) {
 			_head =0;
 		} else {
 			_head++;
 		}
 		_length --;
 		return returnval;
-		//clear();
 
 	}
 	void clear(){
