@@ -8,6 +8,7 @@
 #include "UART.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <stdio.h>
 
 UART * UART::__singelton =0;
 
@@ -62,7 +63,13 @@ unsigned char UART:: get(){
 //	while ( ! (UCSR0A & (1<<RXC0))) ;
 //
 //	return UDR0; //return receive data
-	return self()->_rx_fifo.pop();
+		if(self()->_rx_fifo.size()>0){
+			return self()->_rx_fifo.pop();
+		} else {
+			self()->_rx_fifo.clear();
+			return 0;
+		}
+
 }
 
 void UART:: puts(const char * str){
@@ -77,11 +84,18 @@ void UART:: puts(const char * str){
 void UART::rxc_handler(){
 	//return receive data
 	self()->_rx_fifo.push(UDR0);
+	//printf("Dado recebido\n");
 
 }
 
 void UART::txc_handler(){
-    UDR0 = self()->_tx_fifo.pop();
+
+	if(self()->_tx_fifo.size() > 0){
+		UDR0 = self()->_tx_fifo.pop();
+	} else {
+		self()->_tx_fifo.clear();
+	}
+    //printf("Dado enviado\n");
 }
 
 ISR (USART_RX_vect){

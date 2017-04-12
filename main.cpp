@@ -20,6 +20,7 @@ Timer timer(1000);
 bool val_botao;
 char message[8];
 
+
 void setup() {
 	sei();// habilitando configurações globais SÓ FAZ ISSO AQUI
 }
@@ -29,11 +30,14 @@ typedef FIFO<MAX> MyFIFO;
 MyFIFO fifo_test;
 
 void loop() {
+
 	//val_botao = botao.get();
 	//led.set(val_botao);
 	timer.delay(1000);
-	sprintf(message, "%lu\n", timer.millis());
+
+	sprintf(message, "testando\n");
 	uart.puts(message);
+
 
 	/*char x = 0, y = 0;
 
