@@ -68,12 +68,20 @@ void UART:: puts(const char * str){
 
 }
 
-void UART::isr_handler(){
+void UART::rxc_handler(){
+	self()->_rx_fifo.push(UDRE0);
+}
+
+void UART::txc_handler(){
 
 }
 
 ISR (USART_RX_vect){
+	UART::rxc_handler();
+}
 
+ISR (USART_TX_vect){
+	UART::txc_handler();
 }
 
 

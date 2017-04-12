@@ -43,7 +43,8 @@ public:
 	void put(unsigned char data);
 	unsigned char get();
 	void puts(const char * str);
-	static void isr_handler();
+	static void rxc_handler();
+	static void txc_handler();
 	static UART * self() { return __singelton; }
 
 private:
