@@ -42,25 +42,27 @@ UART::UART(unsigned long  br, DataBits_t db, ParityBits_t pr, StopBits_t sb): _b
 	UCSR0A = UCSR0A & ~(1 << TXC0);
 	UCSR0A = UCSR0A & ~(1 << RXC0);
 
-	UCSR0B = UCSR0B | (1 << UDRIE0);
 	UCSR0B = UCSR0B | (1 << RXCIE0);
 
 
 }
 
 void UART:: put(unsigned char data){
+
+
 	// Coloca na fila de transmissão
 	self()->_tx_fifo.push(data);
+
+	UCSR0B = UCSR0B | (1 << UDRIE0);
 }
 
 unsigned char UART:: get(){
 
-	//return self()->_rx_fifo.pop();
 		if(self()->_rx_fifo.size()>0){
 			return self()->_rx_fifo.pop();
 		} else {
 			self()->_rx_fifo.clear();
-			return 0;
+			return '0';
 		}
 
 }
@@ -83,10 +85,10 @@ void UART::rxc_handler(){
 void UART::txc_handler(){
 	// Coloca dado da fila de transmissão no registrador
 
-	//UDR0 = self()->_tx_fifo.pop();
 	if(self()->_tx_fifo.size() > 0){
 		UDR0 = self()->_tx_fifo.pop();
 	} else {
+		UCSR0B = UCSR0B & ~(1 << UDRIE0);
 		self()->_tx_fifo.clear();
 	}
 

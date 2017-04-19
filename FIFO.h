@@ -8,7 +8,7 @@
 #ifndef FIFO_H_
 #define FIFO_H_
 
-template < int Q_SIZE > // O tamanho da final é passado como parâmetro
+template < int Q_SIZE, typename T > // O tamanho da final é passado como parâmetro
 						// EX: FIFO<8> _tx_fifo
 
 class FIFO {
@@ -22,7 +22,7 @@ public:
 
 	~FIFO(){}
 
-	int push(char value){
+	int push(T value){
 
 		if(_length == Q_SIZE) {
 			_tail = 0;
@@ -39,9 +39,9 @@ public:
 
 		}
 	}
-	char pop(){
-		int returnval;
-		if(_length == 0) return (char)FIFO_ERROR_EMPTY;
+	T pop(){
+		T returnval;
+		if(_length == 0) return (T)FIFO_ERROR_EMPTY;
 		returnval = _buffer[_head];
 
 		if(_head == Q_SIZE-1) {
@@ -65,7 +65,7 @@ public:
 
 private:
 	int _head,_tail, _length;
-	char _buffer[Q_SIZE];
+	T _buffer[Q_SIZE];
 };
 
 #endif /* FIFO_H_ */

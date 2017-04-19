@@ -23,7 +23,10 @@ GPIO::GPIO(int pin, PortDirection_t dir) {
 		_pin = &PINB;
 	} else {
 		//porta C
-		//pin -= 14;
+		 pin = pin-14;
+		_ddr = &DDRC;
+		_port = &PORTC;
+		_pin = &PINC;
 	}
 
 	_mask = (1 << pin);
@@ -33,9 +36,6 @@ GPIO::GPIO(int pin, PortDirection_t dir) {
 	} else {
 		 *_ddr = *_ddr | _mask;
 	}
-
-	// calcular a mascara
-	// configurar DDR
 
 }
 
