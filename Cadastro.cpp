@@ -10,22 +10,34 @@
 
 Cadastro::Cadastro(char nome, char sobrenome, char matricula) {
 
-    User u;
-
-    /*u =  malloc(sizeof(User));
-
-    u.nome = nome;
-    u.sobrenome = sobrenome;
-    u.matricula = matricula;*/
-
-    adiciona(u);
+    _nome = nome;
+    _sobrenome = sobrenome;
+    _matricula = matricula;
+    adiciona();
 
 }
 
 Cadastro::~Cadastro() {}
 
-void Cadastro::adiciona(User u){
+void Cadastro::adiciona(){
+
+
+	User * u = new User();
+	/*
+	strncpy(mike.name, guest_name, 19);
+	mike.name[19] = 0; // ensure termination*/
+	/*
+	u->nome =_nome;
+	u->sobrenome = _sobrenome;
+	u->matricula = _matricula;*/
+
+	//_cadastrados.push(u);
 	//cria uma fila de struct e add nela
+
+}
+
+void Cadastro:: edita(User u){
+
 
 }
 void Cadastro::exclui(char matricula){

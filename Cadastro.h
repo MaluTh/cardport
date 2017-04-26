@@ -8,6 +8,8 @@
 #ifndef CADASTRO_H_
 #define CADASTRO_H_
 
+#include "FIFO.h"
+
 class Cadastro {
 
 typedef	struct usuario{
@@ -19,7 +21,8 @@ typedef	struct usuario{
 public:
 	Cadastro(char nome, char sobrenome, char matricula);
 	virtual ~Cadastro();
-	void adiciona(User u);
+	void adiciona();
+	void edita(User u);
 	void exclui(char matricula);
 
 private:
@@ -27,6 +30,7 @@ private:
 	char _matricula;
 	char _nome;
 	char _sobrenome;
+	FIFO<64,User> _cadastrados;
 };
 
 

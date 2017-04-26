@@ -7,6 +7,7 @@
 
 #ifndef FIFO_H_
 #define FIFO_H_
+#include<stdio.h>
 
 template < int Q_SIZE, typename T > // O tamanho da final é passado como parâmetro
 						// EX: FIFO<8> _tx_fifo
@@ -35,6 +36,7 @@ public:
 				_tail++;
 				_length ++;
 			}
+			printf("saiu");
 			return 0;
 
 		}

@@ -12,6 +12,7 @@
 #include "GPIO.h"
 #include "Timer.h"
 #include "FIFO.h"
+#include "Cadastro.h"
 
 UART uart(19200, UART::DATABITS_8, UART::PARITY_NONE, UART::STOPBITS_1);
 GPIO led(11, GPIO::OUTPUT);
@@ -36,9 +37,11 @@ void loop() {
 }
 
 int main() {
-	setup();
+/*	setup();
 	while (true)
-		loop();
+		loop();*/
+	Cadastro C("Maria", "Luiza", "123456789");
+
 }
 
 
