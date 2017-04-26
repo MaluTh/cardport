@@ -23,24 +23,30 @@ char message[8];
 char a;
 
 
+
 void setup() {
 	sei();// habilitando configurações globais SÓ FAZ ISSO AQUI
 }
 
 void loop() {
 
-	sprintf(message, "\ntesta\n");
+	//c.procura(123456);
+
+	/*sprintf(message, "\ntesta\n");
 	uart.puts(message);
 	a = uart.get();
-	uart.put(a);
-	timer.delay(1000);
+	if(a != 0) uart.put(a);
+	timer.delay(1000);*/
 }
 
 int main() {
-/*	setup();
+	setup();
+	Cadastro c;
+	c.adiciona(123456);
+	//c.adiciona(456);
+	//c.adiciona(789);
 	while (true)
-		loop();*/
-	Cadastro C("Maria", "Luiza", "123456789");
+		loop();
 
 }
 

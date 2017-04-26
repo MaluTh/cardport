@@ -12,25 +12,16 @@
 
 class Cadastro {
 
-typedef	struct usuario{
-		char nome[20];
-		char sobrenome[20];
-		char matricula[20];
-		}User;
-
 public:
-	Cadastro(char nome, char sobrenome, char matricula);
+
+	Cadastro();
 	virtual ~Cadastro();
-	void adiciona();
-	void edita(User u);
-	void exclui(char matricula);
+	void adiciona(unsigned long matricula);
+	bool procura(unsigned long matricula);
+	bool exclui(unsigned long matricula);
 
 private:
-
-	char _matricula;
-	char _nome;
-	char _sobrenome;
-	FIFO<64,User> _cadastrados;
+	FIFO<64,unsigned long> _cadastrados;
 };
 
 

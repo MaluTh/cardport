@@ -62,7 +62,7 @@ unsigned char UART:: get(){
 			return self()->_rx_fifo.pop();
 		} else {
 			self()->_rx_fifo.clear();
-			return '0';
+			return '\0';
 		}
 
 }
