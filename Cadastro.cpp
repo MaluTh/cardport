@@ -23,11 +23,15 @@ bool Cadastro::procura(unsigned long matricula){
 
 	int in = _cadastrados.procura(matricula);
 
-	if(in>=0){
+	if(in<0) return false; //não esta na fila
+	else return true;
+
+/*
+	if(in >= 0){
 		return true; // permite entrada e acende led verde
 	} else {
 		return false; // acende led vermelho
-	}
+	}*/
 
 
 }

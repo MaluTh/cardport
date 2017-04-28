@@ -23,20 +23,19 @@ char message[8];
 char a;
 Cadastro c;
 
-
-
 void setup() {
-	sei();// habilitando configurações globais SÓ FAZ ISSO AQUI
+	sei();
+	// habilitando configurações globais SÓ FAZ ISSO AQUI
 }
 
 void loop() {
 
-	if(c.procura(123)){
+	if (c.procura(789)) {
 
 		//acende led verde por x seg
 		//pulso relé
-		c.exclui(123);
 		uart.puts("Encontrado!\n");
+
 		led.set(1);
 		timer.delay(1000);
 		led.set(0);
@@ -45,24 +44,26 @@ void loop() {
 		uart.puts("Invalido!\n");
 		//acende led vermelho por x seg
 	}
+	if (c.exclui(789))
+		uart.puts("Deletado\n");
+	//else uart.puts("Nao encontrado\n");
 	timer.delay(1000);
 
 	/*sprintf(message, "\ntesta\n");
-	uart.puts(message);
-	a = uart.get();
-	if(a != 0) uart.put(a);
-	timer.delay(1000);*/
+	 uart.puts(message);
+	 a = uart.get();
+	 if(a != 0) uart.put(a);
+	 timer.delay(1000);*/
 }
 
 int main() {
 	setup();
-	c.adiciona(123);
+	c.adiciona(1234);
 	c.adiciona(456);
 	c.adiciona(789);
+
 	while (true)
 		loop();
 
 }
-
-
 

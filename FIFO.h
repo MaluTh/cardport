@@ -68,8 +68,8 @@ public:
 
 	int procura(T value){
 		int i;
-		for( i=0; i< _length; i++){
-			if(value == _buffer[i])return i;
+		for( i=_head; i< _tail; i++){
+				if(value == _buffer[i])return i;
 		}
 		return -1;
 	}
