@@ -50,6 +50,7 @@ public:
 		if(_head == Q_SIZE-1) {
 			_head =0;
 		} else {
+
 			_head++;
 		}
 		_length --;

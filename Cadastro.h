@@ -15,13 +15,13 @@ class Cadastro {
 public:
 
 	Cadastro();
-	virtual ~Cadastro();
+	~Cadastro();
 	void adiciona(unsigned long matricula);
 	bool procura(unsigned long matricula);
 	bool exclui(unsigned long matricula);
 
 private:
-	FIFO<64,unsigned long> _cadastrados;
+	FIFO<8,unsigned long> _cadastrados;
 };
 
 

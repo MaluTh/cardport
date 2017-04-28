@@ -21,6 +21,7 @@ Timer timer(1000);
 bool val_botao;
 char message[8];
 char a;
+Cadastro c;
 
 
 
@@ -30,7 +31,21 @@ void setup() {
 
 void loop() {
 
-	//c.procura(123456);
+	if(c.procura(123)){
+
+		//acende led verde por x seg
+		//pulso relé
+		c.exclui(123);
+		uart.puts("Encontrado!\n");
+		led.set(1);
+		timer.delay(1000);
+		led.set(0);
+
+	} else {
+		uart.puts("Invalido!\n");
+		//acende led vermelho por x seg
+	}
+	timer.delay(1000);
 
 	/*sprintf(message, "\ntesta\n");
 	uart.puts(message);
@@ -41,10 +56,9 @@ void loop() {
 
 int main() {
 	setup();
-	Cadastro c;
-	c.adiciona(123456);
-	//c.adiciona(456);
-	//c.adiciona(789);
+	c.adiciona(123);
+	c.adiciona(456);
+	c.adiciona(789);
 	while (true)
 		loop();
 
