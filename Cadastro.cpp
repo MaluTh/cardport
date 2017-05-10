@@ -13,13 +13,13 @@ Cadastro::Cadastro() {
 
 Cadastro::~Cadastro() {}
 
-void Cadastro::adiciona(unsigned long matricula){
+void Cadastro::adiciona(unsigned long long matricula){
 
 	_cadastrados.push(matricula);
 
 }
 
-bool Cadastro::procura(unsigned long matricula){
+bool Cadastro::procura(unsigned long long matricula){
 
 	int in = _cadastrados.procura(matricula);
 
@@ -36,7 +36,7 @@ bool Cadastro::procura(unsigned long matricula){
 
 }
 
-bool Cadastro::exclui(unsigned long matricula){
+bool Cadastro::exclui(unsigned long long matricula){
 	return _cadastrados.exclui(matricula);
 
 }
