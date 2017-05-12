@@ -93,14 +93,24 @@ void UART::txc_handler(){
 	}
 
 }
-
-ISR (USART_RX_vect){
+#ifdef __AVR_ATmega2560__
+ISR(USART0_RX_vect)
+#else
+ISR(USART_RX_vect)
+#endif
+{
 	UART::rxc_handler();
 }
 
-ISR (USART_UDRE_vect){ // monitora se o registrador esta vazio
+#ifdef __AVR_ATmega2560__
+ISR(USART0_UDRE_vect)
+#else
+ISR(USART_UDRE_vect)
+#endif
+{ // monitora se o registrador esta vazio
 	UART::txc_handler();
 }
+
 
 //UART::~UART() {}
 

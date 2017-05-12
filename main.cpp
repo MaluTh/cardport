@@ -15,8 +15,10 @@
 #include "Cadastro.h"
 
 UART uart(19200, UART::DATABITS_8, UART::PARITY_NONE, UART::STOPBITS_1);
-GPIO led(11, GPIO::OUTPUT);
+GPIO led_vermelho(11, GPIO::OUTPUT);
 GPIO botao(12, GPIO::INPUT);
+GPIO rele(10, GPIO::OUTPUT);
+GPIO buzzer(9, GPIO::OUTPUT);
 Timer timer(1000);
 bool val_botao;
 char message[8];
@@ -36,24 +38,25 @@ void loop() {
 		//pulso relé
 		uart.puts("Encontrado!\n");
 
-		led.set(1);
-		timer.delay(1000);
-		led.set(0);
+		rele.set(1);
+		//while(2000>timer.delay(2000)){
+			buzzer.set(1);
+			buzzer.set(0);
+		//}
+		rele.set(0);
 
 	} else {
 		uart.puts("Invalido!\n");
 		//acende led vermelho por x seg
+		led_vermelho.set(1);
+		timer.delay(1000);
+		led_vermelho.set(0);
 	}
 	if (c.exclui(789))
 		uart.puts("Deletado\n");
 	//else uart.puts("Nao encontrado\n");
 	timer.delay(1000);
 
-	/*sprintf(message, "\ntesta\n");
-	 uart.puts(message);
-	 a = uart.get();
-	 if(a != 0) uart.put(a);
-	 timer.delay(1000);*/
 }
 
 int main() {

@@ -40,6 +40,9 @@
 							</tool>
 							<tool id="de.innot.avreclipse.tool.linker.winavr.app.debug.1034457480" name="AVR C Linker" superClass="de.innot.avreclipse.tool.linker.winavr.app.debug"/>
 							<tool id="de.innot.avreclipse.tool.cpplinker.app.debug.1435933041" name="AVR C++ Linker" superClass="de.innot.avreclipse.tool.cpplinker.app.debug">
+								<option id="de.innot.avreclipse.cpplinker.option.otherobjs.1334776173" name="Other Objects (*.o)" superClass="de.innot.avreclipse.cpplinker.option.otherobjs" valueType="userObjs">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/UART1.o}&quot;"/>
+								</option>
 								<inputType id="de.innot.avreclipse.tool.cpplinker.input.225821915" name="OBJ Files" superClass="de.innot.avreclipse.tool.cpplinker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
