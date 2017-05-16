@@ -27,14 +27,58 @@ public:
     }
 
     unsigned long long read() {
-        while (!_id_is_valid) {
+        //while (!_id_is_valid) {
             while (_serial->has_data()) {
                 parse(_serial->get());
             }
-        }
-        _id_is_valid = false;
+       // }
+       // _id_is_valid = false;
         return _current_id;
     }
+
+    bool parse(char d) {
+            static int state = 0;
+
+            unsigned long long val = 0;
+            unsigned long long desl = 0;
+
+            _id_is_valid = false;
+
+            switch (state) {
+            case 0:
+                if (d == 0x02) {
+                    _current_id = 0;
+                    _received_checksum = 0;
+                    state = 1;
+                }
+                // else => garbage!
+                break;
+            case 11: //1st byte of checksum
+                val = get_val(d);
+                _received_checksum = val << 4;
+                state++;
+                break;
+            case 12: //2nd byte of checksum
+                val = get_val(d);
+                _received_checksum |= val;
+                state++;
+                break;
+            case 13:
+                if (d == 0x03 && _received_checksum == get_checksum(_current_id)) {
+                    _id_is_valid = true;
+                }
+                state = 0;
+                break;
+            default:
+                val = get_val(d);
+                desl = (10 - state) * 4;
+                _current_id |= val << desl;
+                state++;
+                break;
+            }
+
+            return _id_is_valid;
+        }
 
 private:
     int get_val(char c) {
@@ -54,49 +98,7 @@ private:
         return tmp.uc[0] ^ tmp.uc[1] ^ tmp.uc[2] ^ tmp.uc[3] ^ tmp.uc[4];
     }
 
-    bool parse(char d) {
-        static int state = 0;
 
-        unsigned long long val = 0;
-        unsigned long long desl = 0;
-
-        _id_is_valid = false;
-
-        switch (state) {
-        case 0:
-            if (d == 0x02) {
-                _current_id = 0;
-                _received_checksum = 0;
-                state = 1;
-            }
-            // else => garbage!
-            break;
-        case 11: //1st byte of checksum
-            val = get_val(d);
-            _received_checksum = val << 4;
-            state++;
-            break;
-        case 12: //2nd byte of checksum
-            val = get_val(d);
-            _received_checksum |= val;
-            state++;
-            break;
-        case 13:
-            if (d == 0x03 && _received_checksum == get_checksum(_current_id)) {
-                _id_is_valid = true;
-            }
-            state = 0;
-            break;
-        default:
-            val = get_val(d);
-            desl = (10 - state) * 4;
-            _current_id |= val << desl;
-            state++;
-            break;
-        }
-
-        return _id_is_valid;
-    }
 
     SerialT * _serial;
     unsigned long long _current_id;

@@ -16,12 +16,12 @@ public:
 
 	Cadastro();
 	~Cadastro();
-	void adiciona(unsigned long long matricula);
+	bool adiciona(unsigned long long matricula);
 	bool procura(unsigned long long matricula);
 	bool exclui(unsigned long long matricula);
 
 private:
-	FIFO<8,unsigned long long> _cadastrados;
+	FIFO<32,unsigned long long> _cadastrados;
 };
 
 

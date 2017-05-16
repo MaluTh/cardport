@@ -13,9 +13,11 @@ Cadastro::Cadastro() {
 
 Cadastro::~Cadastro() {}
 
-void Cadastro::adiciona(unsigned long long matricula){
+bool Cadastro::adiciona(unsigned long long matricula){
 
-	_cadastrados.push(matricula);
+	bool add = _cadastrados.push(matricula);
+
+	return add;
 
 }
 
