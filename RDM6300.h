@@ -32,8 +32,8 @@ public:
                 parse(_serial->get());
             }
        // }
-       // _id_is_valid = false;
-        return _current_id;
+       if(_id_is_valid )return _current_id;
+       else return 0;
     }
 
     bool parse(char d) {
@@ -79,6 +79,9 @@ public:
 
             return _id_is_valid;
         }
+
+    unsigned long long get_current_id(){return _current_id;}
+    void set_current_id(){ _current_id = 0;}
 
 private:
     int get_val(char c) {
