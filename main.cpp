@@ -33,10 +33,10 @@ Timer timer(1000);
 bool val_botao;
 char message[8];
 char a;
-unsigned long long adm = 3910811; // Administrador: cartão final 51
-//139179;
-
+unsigned long long adm = 279176785051;
+bool admin = false;
 Cadastro c;
+
 
 void aciona_buzzer(int time) {
 
@@ -46,7 +46,6 @@ void aciona_buzzer(int time) {
 		buzzer.set(0);
 		i++;
 	}
-
 }
 
 void acesso_negado() {
@@ -70,9 +69,21 @@ void acesso_permitido() {
 	leitor.set_current_id();
 }
 
+bool verifica_adm() {
+	if (leitor.read() != 0) {
+
+		if (leitor.get_current_id() == adm) {
+			admin = true;
+			acesso_permitido();
+			uart.puts("ADM: Passe novo ID\n");
+		}
+	}
+	return admin;
+}
+
 void setup() {
 	sei();
-	// habilitando configurações globais SÓ FAZ ISSO AQUI
+
 	rele.set(1);
 	botao1.set(0);
 	botao2.set(0);
@@ -83,20 +94,18 @@ void setup() {
 void loop() {
 
 	if (botao1.get() == true) {
-		while (botao1.get() == true) {
-			if (leitor.read() != 0) {
-				if (leitor.get_current_id() == adm) {
-					uart.puts("ADM: Passe novo ID\n");
-					acesso_permitido();
+
+		while (botao1.get()) {
+
+			if (verifica_adm()) {
+
+				if (leitor.read() != 0) {
 					if (c.procura(leitor.get_current_id()) == false) {
 						c.adiciona(leitor.get_current_id());
-
 						acesso_permitido();
 						uart.puts("ADM: Adicionado!\n");
+						admin = false;
 					}
-				} else {
-					uart.puts("Administrador NOK\n");
-					acesso_negado();
 				}
 			}
 		}
@@ -115,23 +124,22 @@ void loop() {
 	if (botao3.get() == true) {
 
 		while (botao3.get() == true) {
-			if (leitor.read() != 0) {
-				if (leitor.get_current_id() == adm) {
-					if (c.exclui(leitor.get_current_id()) == true
-							&& leitor.get_current_id() != adm) {
 
+			if (verifica_adm()) {
+				if (leitor.read() != 0 && leitor.get_current_id() != adm) {
+
+					if (c.exclui(leitor.get_current_id())) {
 						acesso_permitido();
-						uart.puts("ADM: Excluido\n");
-
+						uart.puts("ADM: Usuario Removido\n");
 					} else {
-
 						acesso_negado();
-						uart.puts("Não permitido excluir\n");
+						uart.puts("ADM: Nao removeu\n");
 
 					}
 				}
 			}
 		}
+		admin = false;
 	}
 
 	if (leitor.read() != 0) {
