@@ -30,9 +30,6 @@ GPIO rele(10, GPIO::OUTPUT);
 GPIO buzzer(8, GPIO::OUTPUT);
 
 Timer timer(1000);
-bool val_botao;
-char message[8];
-char a;
 unsigned long long adm = 279176785051;
 bool admin = false;
 Cadastro c;
